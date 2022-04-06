@@ -66,7 +66,6 @@ public class GrapheLATest {
          * pour la représentation du graphe correspond
          * bien à celle voulu
          */
-        System.out.println(g.toString());
         assertTrue(g.toString().contentEquals(
                      "1 -> 2 3 4 5 \n"
                       + "2 -> 5 \n"

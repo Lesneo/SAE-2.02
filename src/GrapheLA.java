@@ -79,8 +79,6 @@ public class GrapheLA implements IGraph{
         String chaine = "";
         for (int i = 1; i <= matrice.size(); ++i) {
             chaine += i + " -> ";
-            System.out.println(matrice.get(i-1));
-            System.out.println(matrice.get(i-1).size());
             for (int j : matrice.get(i-1).keySet()) {
                 chaine += (j+1) + " ";
             }
@@ -89,7 +87,9 @@ public class GrapheLA implements IGraph{
         return chaine;
     }
 
-    public int getValeur(int i, int j){
-        return matrice.get(i-1).get(j-1);
+    public int getValeur(int i, int j) {
+        if (matrice.get(i - 1).containsKey(j-1))
+            return matrice.get(i-1).get(j-1);
+        return 0;
     }
 }
