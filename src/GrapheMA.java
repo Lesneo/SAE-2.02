@@ -7,6 +7,11 @@ public class GrapheMA implements IGraph{
      */
     public GrapheMA(int i) {
         matrice = new int[i][i];
+        for (int j = 0; j < matrice.length; ++j) {
+            for (int k = 0; k < matrice[j].length; ++k) {
+                matrice[j][k] = inf;
+            }
+        }
     }
 
     /**
@@ -82,5 +87,9 @@ public class GrapheMA implements IGraph{
             chaine += "\n";
         }
         return chaine;
+    }
+
+    public int getValeur(int i, int j) {
+        return matrice[i-1][j-1];
     }
 }

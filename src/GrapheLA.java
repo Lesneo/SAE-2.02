@@ -1,8 +1,9 @@
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class GrapheLA{
-    private ArrayList <ArrayList<Integer>> matrice;
+public class GrapheLA implements IGraph{
+    private ArrayList<HashMap<Integer,Integer>> matrice;
 
     /**
      * @brief génère un graphe orienté représenté par une liste d'adjacence
@@ -11,7 +12,7 @@ public class GrapheLA{
     public GrapheLA(int i) {
         matrice = new ArrayList<>();
         while (i>0){
-            matrice.add(new ArrayList<>());
+            matrice.add(new HashMap<>());
             --i;
         }
     }
@@ -22,9 +23,9 @@ public class GrapheLA{
      * @param i : Prédécesseur de j
      * @param j : Successeur de i
      */
-    public void ajouterArc(int i, int j) {
-        matrice.get(i-1).add(j);
-        Collections.sort(matrice.get(i-1));
+    public void ajouterArc(int i, int j, int valeur) {
+        matrice.get(i-1).put(j-1, valeur);
+        //sort la hashmap
     }
 
     /**
@@ -34,10 +35,7 @@ public class GrapheLA{
      * @return valeur booléenne
      */
     public boolean aArc(int i, int j) {
-        for (int k : matrice.get(i-1)){
-            if (k == j) return true;
-        }
-        return false;
+        return matrice.get(i-1).containsKey(j-1);
     }
 
     /**
@@ -46,11 +44,9 @@ public class GrapheLA{
      * @return un int : le degré sortant
      */
     public int dOut(int i) {
-        int cmpt = 0;
-        for (int k : matrice.get(i-1)){
-            ++cmpt;
-        }
-        return cmpt;
+        AtomicInteger cmpt = new AtomicInteger();
+        matrice.get(i-1).forEach((k,l) -> cmpt.getAndIncrement());
+        return cmpt.get();
     }
 
     /**
@@ -60,12 +56,9 @@ public class GrapheLA{
      */
     public int dIn(int i) {
         int cmpt = 0;
-        Integer j = i;
-        for (ArrayList l : matrice) {
-            for (Object k: l) {
-                if(k == j)
-                    ++cmpt;
-            }
+        for (HashMap<Integer, Integer> l : matrice) {
+            if (l.containsKey(i-1))
+                ++cmpt;
         }
         return cmpt;
     }
@@ -86,11 +79,17 @@ public class GrapheLA{
         String chaine = "";
         for (int i = 1; i <= matrice.size(); ++i) {
             chaine += i + " -> ";
-            for (int j : matrice.get(i-1)) {
-                 chaine += j + " ";
+            System.out.println(matrice.get(i-1));
+            System.out.println(matrice.get(i-1).size());
+            for (int j : matrice.get(i-1).keySet()) {
+                chaine += (j+1) + " ";
             }
             chaine += "\n";
         }
         return chaine;
+    }
+
+    public int getValeur(int i, int j){
+        return matrice.get(i-1).get(j-1);
     }
 }

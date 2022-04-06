@@ -19,13 +19,13 @@ public class GrapheLATest {
         assertEquals(NB_NOEUDS, g.getNbNoeuds());
 
         // On ajoute des arcs à notre graphe
-        g.ajouterArc(1, 2);
-        g.ajouterArc(1, 3);
-        g.ajouterArc(1, 4);
-        g.ajouterArc(1, 5);
-        g.ajouterArc(2, 5);
-        g.ajouterArc(4, 4);
-        g.ajouterArc(5, 1);
+        g.ajouterArc(1, 2, 5);
+        g.ajouterArc(1, 3, 7);
+        g.ajouterArc(1, 4, 9);
+        g.ajouterArc(1, 5, 12);
+        g.ajouterArc(2, 5, 3);
+        g.ajouterArc(4, 4, 13);
+        g.ajouterArc(5, 1, 17);
 
         /**
          * On vérifie que la méthode aArc renvoie bien
@@ -66,6 +66,7 @@ public class GrapheLATest {
          * pour la représentation du graphe correspond
          * bien à celle voulu
          */
+        System.out.println(g.toString());
         assertTrue(g.toString().contentEquals(
                      "1 -> 2 3 4 5 \n"
                       + "2 -> 5 \n"

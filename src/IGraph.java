@@ -1,6 +1,7 @@
 public interface IGraph {
     static final int inf = Integer.MAX_VALUE;
 
+
     void ajouterArc(int n1, int n2, int poids);
 
     int getNbNoeuds();
@@ -10,6 +11,8 @@ public interface IGraph {
     int dOut(int n);
 
     int dIn(int n);
+
+    int getValeur(int i, int j);
 
     String toString();
 
