@@ -1,15 +1,17 @@
-public class GrapheMA implements IGraph{
+package graphes;
+
+public class GrapheMA implements IGraph {
     private int [][] matrice;
 
     /**
      * @brief génère un graphe orienté représenté par une matrice de booléens
      * @param i : la taille de la matrice
      */
-    public GrapheMA(int i) {
-        matrice = new int[i][i];
+    public GrapheMA(Sommet[] sommets) {
+        matrice = new int[sommets.length][sommets.length];
         for (int j = 0; j < matrice.length; ++j) {
             for (int k = 0; k < matrice[j].length; ++k) {
-                matrice[j][k] = inf;
+                matrice[j][k] = IGraph.inf;
             }
         }
     }
@@ -19,8 +21,9 @@ public class GrapheMA implements IGraph{
      * @param i : Prédécesseur de j
      * @param j : Successeur de i
      */
-    public void ajouterArc(int i, int j, int valeur) {
-        matrice[i-1][j-1] = valeur;
+    public void ajouterArc(Sommet i, Sommet j, int valeur) {
+
+        matrice[i.getValeur()-1][j.getValeur()-1] = valeur;
     }
 
     /**
@@ -29,8 +32,10 @@ public class GrapheMA implements IGraph{
      * @param j : Successeur de i
      * @return valeur booléenne
      */
-    public boolean aArc(int i, int j) {
-        return (matrice[i-1][j-1] != inf);
+    public boolean aArc(Sommet i, Sommet j) {
+        if (i.getValeur()-1 < 0 || j.getValeur()-1 < 0)
+            return false;
+        return (matrice[i.getValeur()-1][j.getValeur()-1] != IGraph.inf);
     }
 
     /**
@@ -38,10 +43,10 @@ public class GrapheMA implements IGraph{
      * @param i : le sommet
      * @return un int : le degré sortant
      */
-    public int dOut(int i) {
+    public int dOut(Sommet i) {
         int cmpt = 0;
-        for (int s: matrice[i-1]) {
-            if(s != inf){
+        for (int s: matrice[i.getValeur()-1]) {
+            if(s != IGraph.inf){
                 cmpt += 1;
             }
         }
@@ -53,10 +58,10 @@ public class GrapheMA implements IGraph{
      * @param i : le sommet
      * @return un int : le degré entrant
      */
-    public int dIn(int i) {
+    public int dIn(Sommet i) {
         int cmpt = 0;
         for (int[] s: matrice) {
-            if(s[i-1] != inf)
+            if(s[i.getValeur()-1] != IGraph.inf)
                 cmpt += 1;
 
         }
@@ -79,7 +84,7 @@ public class GrapheMA implements IGraph{
         String chaine = "";
         for (int[] tab: matrice) {
             for (int s: tab) {
-                if (s != inf)
+                if (s != IGraph.inf)
                     chaine += s + " ";
                 else
                     chaine += 0 + " ";
@@ -89,7 +94,7 @@ public class GrapheMA implements IGraph{
         return chaine;
     }
 
-    public int getValeur(int i, int j) {
-        return matrice[i-1][j-1];
+    public int getValeur(Sommet i, Sommet j) {
+        return matrice[i.getValeur()-1][j.getValeur()-1];
     }
 }

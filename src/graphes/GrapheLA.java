@@ -1,17 +1,20 @@
+package graphes;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class GrapheLA implements IGraph{
+public class GrapheLA implements IGraph {
     private ArrayList<HashMap<Integer,Integer>> matrice;
 
     /**
      * @brief génère un graphe orienté représenté par une liste d'adjacence
      * @param i : la taille de la matrice
      */
-    public GrapheLA(int i) {
+    public GrapheLA(Sommet[] sommets) {
         matrice = new ArrayList<>();
-        while (i>0){
+        int i = sommets.length;
+        while (i >0){
             matrice.add(new HashMap<>());
             --i;
         }
@@ -23,9 +26,8 @@ public class GrapheLA implements IGraph{
      * @param i : Prédécesseur de j
      * @param j : Successeur de i
      */
-    public void ajouterArc(int i, int j, int valeur) {
-        matrice.get(i-1).put(j-1, valeur);
-        //sort la hashmap
+    public void ajouterArc(Sommet i, Sommet j, int valeur) {
+        matrice.get(i.getValeur()-1).put(j.getValeur()-1, valeur);
     }
 
     /**
@@ -34,8 +36,8 @@ public class GrapheLA implements IGraph{
      * @param j : Successeur de i
      * @return valeur booléenne
      */
-    public boolean aArc(int i, int j) {
-        return matrice.get(i-1).containsKey(j-1);
+    public boolean aArc(Sommet i, Sommet j) {
+        return matrice.get(i.getValeur()-1).containsKey(j.getValeur()-1);
     }
 
     /**
@@ -43,9 +45,9 @@ public class GrapheLA implements IGraph{
      * @param i : le sommet
      * @return un int : le degré sortant
      */
-    public int dOut(int i) {
+    public int dOut(Sommet i) {
         AtomicInteger cmpt = new AtomicInteger();
-        matrice.get(i-1).forEach((k,l) -> cmpt.getAndIncrement());
+        matrice.get(i.getValeur()-1).forEach((k, l) -> cmpt.getAndIncrement());
         return cmpt.get();
     }
 
@@ -54,10 +56,10 @@ public class GrapheLA implements IGraph{
      * @param i : le sommet
      * @return un int : le degré entrant
      */
-    public int dIn(int i) {
+    public int dIn(Sommet i) {
         int cmpt = 0;
         for (HashMap<Integer, Integer> l : matrice) {
-            if (l.containsKey(i-1))
+            if (l.containsKey(i.getValeur()-1))
                 ++cmpt;
         }
         return cmpt;
@@ -78,18 +80,18 @@ public class GrapheLA implements IGraph{
     public String toString() {
         String chaine = "";
         for (int i = 1; i <= matrice.size(); ++i) {
-            chaine += i + " -> ";
+            chaine += Sommet.getSommet(i) + " -> ";
             for (int j : matrice.get(i-1).keySet()) {
-                chaine += (j+1) + " ";
+                chaine += Sommet.getSommet(j+1) + " ";
             }
             chaine += "\n";
         }
         return chaine;
     }
 
-    public int getValeur(int i, int j) {
-        if (matrice.get(i - 1).containsKey(j-1))
-            return matrice.get(i-1).get(j-1);
+    public int getValeur(Sommet i, Sommet j) {
+        if (matrice.get(i.getValeur() - 1).containsKey(j.getValeur()-1))
+            return matrice.get(i.getValeur()-1).get(j.getValeur()-1);
         return 0;
     }
 }
