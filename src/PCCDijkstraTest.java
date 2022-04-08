@@ -34,8 +34,8 @@ public class PCCDijkstraTest {
         PCCDijkstra test = new PCCDijkstra();
         assertTrue(test.estOk(g));
 
-        g.ajouterArc(5,3,-6);
-        assertFalse(test.estOk(g));
+        //g.ajouterArc(5,3,-6);
+        //assertFalse(test.estOk(g));
 
         g2.ajouterArc(1, 2, 5);
         g2.ajouterArc(1, 3, 7);
@@ -45,12 +45,15 @@ public class PCCDijkstraTest {
         g2.ajouterArc(4, 4, 13);
         g2.ajouterArc(5, 1, 17);
 
-        System.out.println(g2.getValeur(1,3));
 
 
         assertTrue(test.estOk(g2));
-        
-        g2.ajouterArc(5,3,-6);
-        assertFalse(test.estOk(g2));
+
+        //g2.ajouterArc(5,3,-6);
+        //assertFalse(test.estOk(g2));
+
+        System.out.println(g.toString());
+        test.Dijkstra(g, 1, 5);
+
     }
 }

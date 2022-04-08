@@ -64,11 +64,11 @@ public class GrapheMATest {
         assertEquals(0, g.dIn(6));
 
         assertTrue(g.toString().contentEquals(
-                "0 1 1 1 1 0 \n" +
-                "0 0 0 0 1 0 \n" +
+                "0 5 7 9 12 0 \n" +
+                "0 0 0 0 3 0 \n" +
                 "0 0 0 0 0 0 \n" +
-                "0 0 0 1 0 0 \n" +
-                "1 0 0 0 0 0 \n" +
+                "0 0 0 13 0 0 \n" +
+                "17 0 0 0 0 0 \n" +
                 "0 0 0 0 0 0 \n"));
     }
 }

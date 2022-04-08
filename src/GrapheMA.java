@@ -80,7 +80,7 @@ public class GrapheMA implements IGraph{
         for (int[] tab: matrice) {
             for (int s: tab) {
                 if (s != inf)
-                    chaine += 1 + " ";
+                    chaine += s + " ";
                 else
                     chaine += 0 + " ";
             }
