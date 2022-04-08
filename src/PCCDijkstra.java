@@ -42,7 +42,7 @@ public class PCCDijkstra {
             for (int l = 1; l <= graphe.getNbNoeuds();++l){
                 if (graphe.aArc(k,l)) {
                     int c = graphe.getValeur(k,l);
-                    if (!D.contains(l)){
+                    if (!D.contains(l) && graphe.dOut(l) > 0) {
                         System.out.println("valuation entre " + k + " et " + l + " est de " + c);
                         System.out.println("la distance avec " + l + " est de " + d.get(l));
                         d.put(l, Integer.min(d.get(l), d.get(k)+c));
@@ -75,6 +75,8 @@ public class PCCDijkstra {
 
         System.out.println(g.dOut(4));
         System.out.println(Dijkstra(g,1,2)); // 1, 3, 5, 2
+
+
 
     }
 }
