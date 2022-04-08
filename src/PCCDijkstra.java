@@ -34,33 +34,30 @@ public class PCCDijkstra {
         for (int i = 1; i <= graphe.getNbNoeuds();++i){
             d.put(i, inf);
         }
-        d.put(1, inf);
-        int k = debut;
+        d.put(debut, 0);
+        int k = minimum(d); // début 1
         while(k != fin) {
             k = minimum(d);
-            System.out.println(k);
-            for (int j = 1; j <= graphe.dOut(k); ++j) {
-                for (int l = 1; l <= graphe.getNbNoeuds();++l){
-                    if (graphe.aArc(k,l)) {
-                        int c = graphe.getValeur(k,l);
-                        if (!D.contains(l)){
-                            System.out.println(c);
-                            System.out.println(d.get(l));
-                            d.put(l, Integer.min(d.get(l), d.get(k)+c));
-                        }
+            System.out.println("sommet k : " + k);
+            for (int l = 1; l <= graphe.getNbNoeuds();++l){
+                if (graphe.aArc(k,l)) {
+                    int c = graphe.getValeur(k,l);
+                    if (!D.contains(l)){
+                        System.out.println("valuation entre " + k + " et " + l + " est de " + c);
+                        System.out.println("la distance avec " + l + " est de " + d.get(l));
+                        d.put(l, Integer.min(d.get(l), d.get(k)+c));
                     }
                 }
-                System.out.println(d.toString());
             }
+            System.out.println(d.toString());
+
             d.remove(k);
-            System.out.println(minimum(d));
-            D.add(k);
-            System.out.println(D);
-            if (minimum(d) == fin) {
-                D.add(fin);
+            if (graphe.dOut(k) > 0) {
+                D.add(k);
                 System.out.println(D);
-                break;
             }
+
+
         }
         return D;
     }
@@ -76,7 +73,7 @@ public class PCCDijkstra {
         g.ajouterArc(5,2,9);
         g.ajouterArc(5,4,17);
 
-
+        System.out.println(g.dOut(4));
         System.out.println(Dijkstra(g,1,2)); // 1, 3, 5, 2
 
     }
