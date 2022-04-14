@@ -22,7 +22,7 @@ public class GrapheMA implements IGraph {
      * @param j : Successeur de i
      */
     public void ajouterArc(Sommet i, Sommet j, int valeur) {
-
+        assert(0 <= i.getValeur()-1 && matrice.length > i.getValeur()-1 && 0 <= j.getValeur()-1 && matrice.length > j.getValeur()-1);
         matrice[i.getValeur()-1][j.getValeur()-1] = valeur;
     }
 
@@ -33,6 +33,7 @@ public class GrapheMA implements IGraph {
      * @return valeur booléenne
      */
     public boolean aArc(Sommet i, Sommet j) {
+        assert(0 <= i.getValeur()-1 && matrice.length > i.getValeur()-1 && 0 <= j.getValeur()-1 && matrice.length > j.getValeur()-1);
         if (i.getValeur()-1 < 0 || j.getValeur()-1 < 0)
             return false;
         return (matrice[i.getValeur()-1][j.getValeur()-1] != IGraph.inf);
@@ -44,6 +45,7 @@ public class GrapheMA implements IGraph {
      * @return un int : le degré sortant
      */
     public int dOut(Sommet i) {
+        assert(0 <= i.getValeur()-1 && matrice.length > i.getValeur()-1);
         int cmpt = 0;
         for (int s: matrice[i.getValeur()-1]) {
             if(s != IGraph.inf){
@@ -59,6 +61,7 @@ public class GrapheMA implements IGraph {
      * @return un int : le degré entrant
      */
     public int dIn(Sommet i) {
+        assert(0 <= i.getValeur()-1 && matrice.length > i.getValeur()-1);
         int cmpt = 0;
         for (int[] s: matrice) {
             if(s[i.getValeur()-1] != IGraph.inf)
@@ -81,20 +84,21 @@ public class GrapheMA implements IGraph {
      * @return un string : le graphe
      */
     public String toString() {
-        String chaine = "";
+        StringBuilder chaine = new StringBuilder();
         for (int[] tab: matrice) {
             for (int s: tab) {
                 if (s != IGraph.inf)
-                    chaine += s + " ";
+                    chaine.append(s + " ");
                 else
-                    chaine += 0 + " ";
+                    chaine.append(0 + " ");
             }
-            chaine += "\n";
+            chaine.append("\n");
         }
-        return chaine;
+        return chaine.toString();
     }
 
     public int getValeur(Sommet i, Sommet j) {
+        assert(0 <= i.getValeur()-1 && matrice.length > i.getValeur()-1 && 0 <= j.getValeur()-1 && matrice.length > j.getValeur()-1);
         return matrice[i.getValeur()-1][j.getValeur()-1];
     }
 }

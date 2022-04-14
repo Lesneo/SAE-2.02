@@ -25,8 +25,10 @@ public class GrapheLA implements IGraph {
      * @brief Ajoute un arc au graphe
      * @param i : Prédécesseur de j
      * @param j : Successeur de i
+     * @param valeur : valuation de l'arc
      */
     public void ajouterArc(Sommet i, Sommet j, int valeur) {
+        assert(0 < i.getValeur() && matrice.size() > i.getValeur() && 0 < j.getValeur() && matrice.size() > j.getValeur());
         matrice.get(i.getValeur()-1).put(j.getValeur()-1, valeur);
     }
 
@@ -37,6 +39,7 @@ public class GrapheLA implements IGraph {
      * @return valeur booléenne
      */
     public boolean aArc(Sommet i, Sommet j) {
+        assert(0 <= i.getValeur()-1 && matrice.size() > i.getValeur()-1 && 0 <= j.getValeur()-1 && matrice.size() > j.getValeur()-1);
         return matrice.get(i.getValeur()-1).containsKey(j.getValeur()-1);
     }
 
@@ -46,9 +49,11 @@ public class GrapheLA implements IGraph {
      * @return un int : le degré sortant
      */
     public int dOut(Sommet i) {
-        AtomicInteger cmpt = new AtomicInteger();
-        matrice.get(i.getValeur()-1).forEach((k, l) -> cmpt.getAndIncrement());
-        return cmpt.get();
+        assert(0 <= i.getValeur()-1 && matrice.size() > i.getValeur()-1);
+        return matrice.get(i.getValeur()-1).size();
+        //AtomicInteger cmpt = new AtomicInteger();
+        //matrice.get(i.getValeur()-1).forEach((k, l) -> cmpt.getAndIncrement());
+        //return cmpt.get();
     }
 
     /**
@@ -57,6 +62,7 @@ public class GrapheLA implements IGraph {
      * @return un int : le degré entrant
      */
     public int dIn(Sommet i) {
+        assert(0 <= i.getValeur()-1 && matrice.size() > i.getValeur()-1);
         int cmpt = 0;
         for (HashMap<Integer, Integer> l : matrice) {
             if (l.containsKey(i.getValeur()-1))
@@ -78,18 +84,19 @@ public class GrapheLA implements IGraph {
      * @return un string : le graphe
      */
     public String toString() {
-        String chaine = "";
+        StringBuilder chaine = new StringBuilder();
         for (int i = 1; i <= matrice.size(); ++i) {
-            chaine += Sommet.getSommet(i) + " -> ";
+            chaine.append(Sommet.getSommet(i) + " -> ");
             for (int j : matrice.get(i-1).keySet()) {
-                chaine += Sommet.getSommet(j+1) + " ";
+                chaine.append(Sommet.getSommet(j+1) + " ");
             }
-            chaine += "\n";
+            chaine.append("\n");
         }
-        return chaine;
+        return chaine.toString();
     }
 
     public int getValeur(Sommet i, Sommet j) {
+        assert(0 <= i.getValeur()-1 && matrice.size() > i.getValeur()-1 && 0 <= j.getValeur()-1 && matrice.size() > j.getValeur()-1);
         if (matrice.get(i.getValeur() - 1).containsKey(j.getValeur()-1))
             return matrice.get(i.getValeur()-1).get(j.getValeur()-1);
         return 0;
