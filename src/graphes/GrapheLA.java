@@ -28,7 +28,7 @@ public class GrapheLA implements IGraph {
      * @param valeur : valuation de l'arc
      */
     public void ajouterArc(Sommet i, Sommet j, int valeur) {
-        assert(0 < i.getValeur() && matrice.size() > i.getValeur() && 0 < j.getValeur() && matrice.size() > j.getValeur());
+        assert(0 <= i.getValeur() && matrice.size() > i.getValeur()-1 && 0 <= j.getValeur() && matrice.size() > j.getValeur()-1);
         matrice.get(i.getValeur()-1).put(j.getValeur()-1, valeur);
     }
 
