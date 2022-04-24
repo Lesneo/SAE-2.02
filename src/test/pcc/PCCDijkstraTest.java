@@ -1,6 +1,5 @@
 package test.pcc;
 
-import static java.lang.invoke.MethodHandles.catchException;
 import static org.junit.Assert.*;
 
 import org.junit.Rule;
@@ -12,8 +11,6 @@ import graphes.GrapheMA;
 import pcc.IGraph;
 import graphes.Sommet;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 
 public class PCCDijkstraTest {
@@ -91,7 +88,7 @@ public class PCCDijkstraTest {
         g.ajouterArc(Sommet.E,Sommet.D,17);
         g.ajouterArc(Sommet.A,Sommet.B, -5);
 
-        thrownException.expect(IllegalArgumentException.class);
+        thrownException.expect(ArcNegatifEx.class);
         thrownException.expectMessage("Le graphe comprend un arc négatif"); //Tests that the message contains -400.
         PCCDijkstra.dijkstra(g,Sommet.A,Sommet.B);
 
@@ -101,8 +98,11 @@ public class PCCDijkstraTest {
     public void pasDeCheminTest() throws NoPathEx {
         Sommet[] sommets1 = {Sommet.A, Sommet.B, Sommet.C, Sommet.D, Sommet.E};
         IGraph g = new graphes.GrapheMA(sommets1);
+        g.ajouterArc(Sommet.A,Sommet.C,7);
+        g.ajouterArc(Sommet.A,Sommet.D,15);
+        g.ajouterArc(Sommet.B,Sommet.D,21);
 
-        thrownException.expect(IllegalArgumentException.class);
+        thrownException.expect(NoPathEx.class);
         thrownException.expectMessage("Ce graphe ne comprend pas ce chemin"); //Tests that the message contains -400.
         PCCDijkstra.dijkstra(g,Sommet.A,Sommet.B);
     }

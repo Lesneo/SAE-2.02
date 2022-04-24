@@ -19,12 +19,12 @@ public class PCCDijkstra {
         }
         sommets.add(start);
         while (!sommets.isEmpty()) {
-            Sommet courant = sommets.get(sommets.size()-1);
-            visitee.add(courant.getValeur()-1, true);
+            Sommet courant = sommets.remove(sommets.size()-1);
+            visitee.set(courant.getValeur()-1, true);
             for (int i = 1; i<=longueur; ++i) {
                 if (graphe.aArc(courant,Sommet.getSommet(i)) && visitee.get(i-1) == false) {
                     sommets.add(Sommet.getSommet(i));
-                    visitee.add(i-1, true);
+                    visitee.set(i-1, true);
                 }
                 else if (graphe.aArc(courant, Sommet.getSommet(i)) && Sommet.getSommet(i) == end) {
                     return true;
@@ -57,10 +57,10 @@ public class PCCDijkstra {
 
 
     public static ArrayList<Sommet> dijkstra(IGraph graphe, Sommet start, Sommet end) throws ArcNegatifEx, NoPathEx{
-        if (!PCCDijkstra.estOk(graphe))
-            throw new ArcNegatifEx();
-        else if (!PCCDijkstra.NoPath(graphe, start, end))
+        if (!PCCDijkstra.NoPath(graphe, start, end))
             throw new NoPathEx();
+        else if (!PCCDijkstra.estOk(graphe))
+            throw new ArcNegatifEx();
         else {
             int debut = start.getValeur(), fin = end.getValeur();
             ArrayList<Sommet> dijkstra = new ArrayList<Sommet>();
