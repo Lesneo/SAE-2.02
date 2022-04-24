@@ -1,6 +1,5 @@
 package pcc;
 
-import graphes.IGraph;
 import graphes.Sommet;
 
 import java.util.ArrayList;

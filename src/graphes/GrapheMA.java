@@ -1,5 +1,7 @@
 package graphes;
 
+import pcc.IGraph;
+
 public class GrapheMA implements IGraph {
     private int [][] matrice;
 

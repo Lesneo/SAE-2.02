@@ -1,7 +1,7 @@
 package test.pcc;
 
 import graphes.GrapheMA;
-import graphes.IGraph;
+import pcc.IGraph;
 import graphes.Sommet;
 import org.junit.Test;
 import pcc.PCCBellman;
@@ -20,7 +20,7 @@ public class PCCBellmanTest {
     @Test
     public void test() {
         Sommet[] sommets1 = {Sommet.A, Sommet.B, Sommet.C, Sommet.D, Sommet.E};
-        graphes.IGraph g = new graphes.GrapheMA(sommets1);
+        IGraph g = new graphes.GrapheMA(sommets1);
         g.ajouterArc(Sommet.A,Sommet.C,7);
         g.ajouterArc(Sommet.A,Sommet.D,15);
         g.ajouterArc(Sommet.B,Sommet.D,21);
@@ -35,7 +35,7 @@ public class PCCBellmanTest {
 
 
 
-        graphes.IGraph g2 = new graphes.GrapheLA(sommets1);
+        IGraph g2 = new graphes.GrapheLA(sommets1);
         g2.ajouterArc(Sommet.A,Sommet.C,7);
         g2.ajouterArc(Sommet.A,Sommet.D,15);
         g2.ajouterArc(Sommet.B,Sommet.D,21);

@@ -1,8 +1,9 @@
 package graphes;
 
+import pcc.IGraph;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class GrapheLA implements IGraph {
     private ArrayList<HashMap<Integer,Integer>> matrice;

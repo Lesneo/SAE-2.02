@@ -1,4 +1,6 @@
-package graphes;
+package pcc;
+
+import graphes.Sommet;
 
 public interface IGraph {
     static final int inf = Integer.MAX_VALUE;

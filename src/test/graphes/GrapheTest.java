@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import graphes.GrapheLA;
 import graphes.GrapheMA;
-import graphes.IGraph;
+import pcc.IGraph;
 
 class GrapheTest {
 
