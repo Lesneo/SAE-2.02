@@ -2,13 +2,7 @@ package tests.pcc;
 
 import graphes.IGraphe;
 import graphes.types.GrapheMA;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
-import pcc.ArcNegatifEx;
-import pcc.CircuitAbsorbantEx;
 import org.junit.Test;
-import pcc.PCCBellman;
-import pcc.PCCDijkstra;
 
 import static org.junit.Assert.assertTrue;
 

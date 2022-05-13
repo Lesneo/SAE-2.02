@@ -3,14 +3,12 @@ package tests.pcc;
 import static org.junit.Assert.*;
 
 import graphes.IGraphe;
-import graphes.ihm.GraphImporter;
 import graphes.types.GrapheMA;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
-import pcc.ArcNegatifEx;
-import pcc.NoPathEx;
-import pcc.PCCDijkstra;
+import pcc.IPCC;
+import pcc.algo.PCCDijkstra;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 
 public class PCCDijkstraTest {
@@ -41,7 +39,10 @@ public class PCCDijkstraTest {
         g.ajouterArc(9,10,8);
 
 
-        assertTrue(PCCDijkstra.dijkstra(g,1,2).toString().equals("[1, 4, 2]")); // 1, 3, 5, 2
+        PCCDijkstra pc = new PCCDijkstra();
+        ArrayList<Integer> chemin = new ArrayList<>();
+        pc.pc(g,1,2,chemin);
+        assertTrue(chemin.toString().equals("[1, 4, 2]")); // 1, 3, 5, 2
 
 
 

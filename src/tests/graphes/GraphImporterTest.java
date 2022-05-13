@@ -2,11 +2,11 @@ package tests.graphes;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import graphes.ihm.GraphImporter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import graphes.ihm.Arc;
-import graphes.ihm.GraphImporter;
 
 class GraphImporterTest {
 

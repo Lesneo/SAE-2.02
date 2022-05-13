@@ -53,4 +53,14 @@ public class GrapheLA extends Graphe{
 		}
 		return str;
 	}
+
+	@Override
+	public int distance(ArrayList<Integer> chemin) {
+		int distance = 0;
+		for (int i : chemin) {
+			if (chemin.indexOf(i)+1 != chemin.size())
+				distance += this.getValuation(i, chemin.get(chemin.indexOf(i)+1));
+		}
+		return distance;
+	}
 }
