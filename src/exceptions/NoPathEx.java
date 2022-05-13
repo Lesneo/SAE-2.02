@@ -1,4 +1,4 @@
-package pcc;
+package exceptions;
 
 public class NoPathEx extends IllegalArgumentException {
     public NoPathEx() {

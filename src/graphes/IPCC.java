@@ -1,4 +1,4 @@
-package pcc;
+package graphes;
 
 import graphes.IGraphe;
 import java.util.List;

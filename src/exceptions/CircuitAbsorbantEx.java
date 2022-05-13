@@ -1,4 +1,4 @@
-package pcc;
+package exceptions;
 
 public class CircuitAbsorbantEx extends IllegalArgumentException{
     public CircuitAbsorbantEx() {

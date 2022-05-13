@@ -4,8 +4,7 @@ import static org.junit.Assert.*;
 
 import graphes.IGraphe;
 import graphes.types.GrapheMA;
-import pcc.IPCC;
-import pcc.algo.PCCDijkstra;
+import pcc.PCCDijkstra;
 import org.junit.Test;
 
 import java.util.ArrayList;

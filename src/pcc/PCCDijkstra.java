@@ -1,10 +1,9 @@
-package pcc.algo;
+package pcc;
 
-import graphes.types.Graphe;
+import exceptions.ArcNegatifEx;
+import exceptions.NoPathEx;
 import graphes.IGraphe;
-import pcc.ArcNegatifEx;
-import pcc.IPCC;
-import pcc.NoPathEx;
+import graphes.IPCC;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,24 +12,32 @@ import java.util.List;
 public class PCCDijkstra implements IPCC {
     private static final int inf = Integer.MAX_VALUE;
 
+    /**
+     * @return true si un chemin existe
+     * */
     private static boolean NoPath(IGraphe graphe, int start, int end) {
+        if (start == end || graphe.aArc(start,end))
+            return true;
         int longueur = graphe.getNbSommets();
         ArrayList<Integer> sommets = new ArrayList<>();
         ArrayList<Boolean> visitee = new ArrayList<>();
-        for (int i = 0; i<longueur; ++i) {
+
+        for (int i = 0; i < longueur; ++i) {
             visitee.add(false);
         }
+
         sommets.add(start);
+
         while (!sommets.isEmpty()) {
             int courant = sommets.remove(sommets.size()-1);
             visitee.set(courant-1, true);
-            for (int i = 1; i<=longueur; ++i) {
-                if (graphe.aArc(courant,i) && visitee.get(i-1) == false) {
+            for (int i = 1; i <= longueur; ++i) {
+                if (graphe.aArc(courant,i) && i == end) {
+                    return true;
+                }
+                else if (graphe.aArc(courant, i) && visitee.get(i-1) == false) {
                     sommets.add(i);
                     visitee.set(i-1, true);
-                }
-                else if (graphe.aArc(courant, i) && i == end) {
-                    return true;
                 }
             }
         }
@@ -60,7 +67,11 @@ public class PCCDijkstra implements IPCC {
 
     @Override
     public int pc(IGraphe graphe, int debut, int fin, List<Integer> chemin) throws ArcNegatifEx, NoPathEx {
-        if (PCCDijkstra.NoPath(graphe, debut, fin))
+        if (debut == fin) {
+            chemin.add(debut);
+            return 0;
+        }
+        else if (!PCCDijkstra.NoPath(graphe, debut, fin))
             throw new NoPathEx();
         else if (!PCCDijkstra.estOk(graphe))
             throw new ArcNegatifEx();
@@ -88,7 +99,7 @@ public class PCCDijkstra implements IPCC {
                 //dijkstra.put(k,prede);
                 k = minimum(tab);
             }
-            System.out.println(dijkstra);
+            //System.out.println(dijkstra);
             chemin.add(chemin.size(), fin);
             int cmpt = dijkstra.remove(fin);
             int cmp = 1;
@@ -98,7 +109,7 @@ public class PCCDijkstra implements IPCC {
                 ++cmp;
             }
             chemin.add(0, debut);
-            System.out.println(chemin);
+            //System.out.println(chemin);
 
 
             return tab.get(fin);

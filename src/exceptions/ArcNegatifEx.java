@@ -1,4 +1,4 @@
-package pcc;
+package exceptions;
 
 public class ArcNegatifEx extends IllegalArgumentException {
     public ArcNegatifEx() {
