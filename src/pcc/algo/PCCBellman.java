@@ -84,26 +84,134 @@ public class PCCBellman implements IPCC {
                         }
                     }
                 }
+
                 k++;
+            }
+            if (rang.get(k).isEmpty()) {
+                rang.remove(k);
             }
             System.out.println(rang);
 
             HashMap<Integer,Integer> tab = new HashMap<Integer,Integer>();
+            HashMap<Integer,Integer> bellman = new HashMap<Integer, Integer>();  //sommet clé prede valeur
 
+            /*for (int i = 1; i <= g.getNbSommets(); ++i) {
+                for (int j : rang.keySet()) {
+                    if (!tab.containsKey(i)) {
+                        tab.put(i, INFINI);
+                    }
+                    if ((rang.get(j).contains(i) && j == 0)) {
+                        tab.put(i, 0);
+                    }
+                }
+            }*/
             for (int i = 1; i <= g.getNbSommets(); ++i) {
                 tab.put(i, INFINI);
             }
-            tab.put(debut, 0);
+            tab.put(debut,0);
 
-            k = debut;
-            
-            rang.remove(k);
 
-            while (k != fin) {
-                k= fin;
+            /*for (int i : rang.keySet()) {
+                if (!rang.get(i).contains(debut)){
+                    rang.remove(i);
+                }
+                else {
+                    for (int j : rang.get(i)) {
+                        if (j != debut) {
+                            rang.get(i).remove(j);
+                        }
+                    }
+                    break;
+                }
+            }*/
+            System.out.println("init tab :" + tab);
+
+            for (int i : rang.keySet()) {
+                if (i != 0) {
+                    for (int j : rang.get(i)) {
+                        for (int rangPrede = i-1; rangPrede >= 0; rangPrede--) {
+                            //System.out.println(rangPrede);
+                            for (int prede : rang.get(rangPrede)) {
+                                //System.out.println(j);
+                                if (g.aArc(prede, j) && tab.get(prede) != INFINI) {
+                                    //System.out.println("salut");
+                                    tab.put(j, Integer.min(tab.get(j), g.getValuation(prede, j) + tab.get(prede)));
+                                    bellman.put(j, prede);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (bellman.containsKey(fin))
+                    break;
             }
-            System.out.println(rang);
-            return 0;
+            System.out.println("final tab" + tab);
+            System.out.println(bellman);
+
+            k = fin;
+            int cmpt = 0;
+
+            while (k != debut) {
+                chemin.add(chemin.size()-cmpt, bellman.get(k));
+                k = bellman.remove(k);
+                cmpt++;
+            }
+            chemin.add(fin);
+
+
+            /*int valuation = INFINI;
+            int rangSommet = 0;
+
+
+            chemin.add(debut);
+            while (k != fin) {
+                //System.out.println(k);
+                for (int i : rang.keySet()) {
+                    if (rang.get(i).contains(k)) {
+                        rangSommet = i;
+                    }
+                }
+
+
+                for (int i = rangSommet + 1; i < rang.size(); ++i) {
+                    for (int j : rang.get(i)) {
+                        if (g.aArc(k, j)) {
+                            tab.put(j, Integer.min(tab.get(j), g.getValuation(k, j) + tab.get(k)));
+                            bellman.put(j, k);
+                        }
+                    }
+                }
+
+
+                k = chemin.get(chemin.size()-1);
+                for (int i : bellman.keySet()) {
+                    if (bellman.get(i) == k) {
+                        //System.out.println("sommet " + i + " valuation " + tab.get(i));
+                        if (tab.get(i) < valuation) {
+                            valuation = tab.get(i);
+
+                        }
+                        else
+                            tab.remove(i);
+                    }
+                }
+                for (int i : tab.keySet()) {
+                    if (tab.get(i) == valuation)
+                        k = i;
+                }
+
+                chemin.add(k);
+                valuation = INFINI;
+                System.out.println(bellman);
+                //System.out.println(tab);
+                //System.out.println(chemin);
+            }
+
+
+
+            System.out.println(chemin);*/
+            return tab.get(fin);
+
 
 
 
