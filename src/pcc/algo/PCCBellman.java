@@ -49,7 +49,65 @@ public class PCCBellman implements IPCC {
         else if (NoPath(g, debut, fin))
             throw new NoPathEx();
         else {
-            HashMap<Integer,Integer> bellman = new HashMap<Integer, Integer>();  //sommet clé prede valeur
+            HashMap<Integer,ArrayList<Integer>> rang = new HashMap<>();
+            HashMap<Integer,Integer> degre = new HashMap<>();
+            int k = 0;
+            rang.put(0,new ArrayList<>());
+
+            for (int i = 1; i <= g.getNbSommets(); i++) {
+                degre.put(i,0);
+            }
+
+            for (int i = 1; i <= g.getNbSommets(); i++) {
+                for (int j = 1; j <= g.getNbSommets(); j++) {
+                    if (g.aArc(i,j)) {
+                        degre.put(j,degre.get(j)+1);
+                    }
+                }
+            }
+
+            for (int i = 1; i <= g.getNbSommets(); i++) {
+                if (degre.get(i) == 0) {
+                    rang.get(0).add(i);
+                }
+            }
+
+            while (!rang.get(k).isEmpty()) {
+                rang.put(k + 1, new ArrayList<>());
+                for (int i : rang.get(k)) {
+                    for (int j = 1; j <= g.getNbSommets(); j++) {
+                        if (g.aArc(i, j)) {
+                            degre.put(j, degre.get(j) - 1);
+                            if (degre.get(j) == 0) {
+                                rang.get(k + 1).add(j);
+                            }
+                        }
+                    }
+                }
+                k++;
+            }
+            System.out.println(rang);
+
+            HashMap<Integer,Integer> tab = new HashMap<Integer,Integer>();
+
+            for (int i = 1; i <= g.getNbSommets(); ++i) {
+                tab.put(i, INFINI);
+            }
+            tab.put(debut, 0);
+
+            k = debut;
+            
+            rang.remove(k);
+
+            while (k != fin) {
+                k= fin;
+            }
+            System.out.println(rang);
+            return 0;
+
+
+
+            /*HashMap<Integer,Integer> bellman = new HashMap<Integer, Integer>();  //sommet clé prede valeur
             HashMap<Integer,Integer> tab = new HashMap<Integer,Integer>();
 
 
@@ -82,7 +140,7 @@ public class PCCBellman implements IPCC {
             }
             chemin.add(0,debut);
 
-            return tab.get(fin);
+            return tab.get(fin);*/
         }
     }
 }

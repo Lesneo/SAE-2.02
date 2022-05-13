@@ -19,7 +19,7 @@ class PlusCourtTest {
 	@Test
 	void testDijkstra() throws NumberFormatException, FileNotFoundException, IOException {
 		IPCC algo = new PCCDijkstra();
-		assertTrue(GraphImporter.comparer("graphes\\ac\\g-10-1.txt", "reponses\\ac\\r-10-1.txt", algo));
+		assertTrue(GraphImporter.comparer("graphes\\sc\\g-10-1.txt", "reponses\\sc\\r-10-1.txt", algo));
 	}
 
 	@Test
