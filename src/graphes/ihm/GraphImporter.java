@@ -1,5 +1,11 @@
 package graphes.ihm;
 
+import graphes.IGraphe;
+import graphes.types.GrapheLA;
+import pcc.IPCC;
+import pcc.PCCDijkstra;
+import pcc.exceptions.NoPathEx;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,37 +13,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import exceptions.NoPathEx;
-import graphes.IGraphe;
-import graphes.IPCC;
-import graphes.types.GrapheLA;
-import pcc.PCCDijkstra;
-
 public class GraphImporter {
-    public static void main(String[] args) throws NumberFormatException, FileNotFoundException, IOException {
+    public static void main(String[] args) throws NumberFormatException, IOException {
         String fileName = "graphes/ac/g-10-1.txt";
         System.out.println();
-		/*if (args.length != 1)
+		if (args.length != 1)
 			fileName = "graphe1.txt";
-		else fileName = args[0];*/
-        System.out.println("filename = "+ fileName);
+		else fileName = args[0];
+        System.out.println("filename = " + fileName);
         Arc df = new Arc();
         IGraphe g = importer(fileName, df);
         System.out.print(g);
-        System.out.println("debut fin : "+ df.getSource() + " ==> "+ df.getDestination());
+        System.out.println("debut fin : " + df.getSource() + " ==> " + df.getDestination());
         afficherExo31();
         verifierGraphes();
     }
 
     /**
      * Affiche le résultat sous le format attendu
+     *
      * @param chemin
      * @return
      */
     public static String cheminToString(List<Integer> chemin) {
         StringBuilder sb = new StringBuilder();
         for (int n : chemin)
-            sb.append(n + " ");
+            sb.append(n).append(" ");
         return sb.toString();
     }
 
@@ -53,21 +54,21 @@ public class GraphImporter {
 
         int nbNoeuds = 9;
         IGraphe g = new GrapheLA(nbNoeuds);
-        g.ajouterArc(1,2,3);
-        g.ajouterArc(1,1,4);
-        g.ajouterArc(2,3,7);
-        g.ajouterArc(3,2,8);
-        g.ajouterArc(4,3,2);
-        g.ajouterArc(4,5,3);
-        g.ajouterArc(4,3,5);
-        g.ajouterArc(5,1,3);
-        g.ajouterArc(5,3,7);
-        g.ajouterArc(5,7,8);
-        g.ajouterArc(7,2,2);
-        g.ajouterArc(7,1,6);
-        g.ajouterArc(8,4,6);
-        g.ajouterArc(8,2,7);
-        g.ajouterArc(9,10,8);
+        g.ajouterArc(1, 2, 3);
+        g.ajouterArc(1, 1, 4);
+        g.ajouterArc(2, 3, 7);
+        g.ajouterArc(3, 2, 8);
+        g.ajouterArc(4, 3, 2);
+        g.ajouterArc(4, 5, 3);
+        g.ajouterArc(4, 3, 5);
+        g.ajouterArc(5, 1, 3);
+        g.ajouterArc(5, 3, 7);
+        g.ajouterArc(5, 7, 8);
+        g.ajouterArc(7, 2, 2);
+        g.ajouterArc(7, 1, 6);
+        g.ajouterArc(8, 4, 6);
+        g.ajouterArc(8, 2, 7);
+        g.ajouterArc(9, 10, 8);
 
         IPCC pcc = new PCCDijkstra();
         ArrayList<Integer> chemin = new ArrayList<>();
@@ -90,9 +91,9 @@ public class GraphImporter {
         try {
             int distanceCalculee = algo.pc(g, df.getSource(), df.getDestination(), cheminCalcule);
             int distanceAttendue = GraphImporter.importerReponse(fichierReponse, cheminPossible);
-            System.out.println(fichierGraphe + " vs " +  fichierReponse);
-            System.out.println("Chemin possible : "+ cheminToString(cheminPossible));
-            System.out.println("Chemin calcule : "+ cheminToString(cheminCalcule));
+            System.out.println(fichierGraphe + " vs " + fichierReponse);
+            System.out.println("Chemin possible : " + cheminToString(cheminPossible));
+            System.out.println("Chemin calcule : " + cheminToString(cheminCalcule));
             System.out.println("Distance attendue : " + distanceAttendue);
             System.out.println("Distance calculee : " + distanceCalculee);
             if (distanceCalculee != distanceAttendue)
@@ -100,16 +101,14 @@ public class GraphImporter {
             int distanceVerifiee = g.distance(cheminCalcule);
             if (distanceVerifiee == IPCC.INFINI)
                 throw new RuntimeException("Le chemin retourne est invalide");
-            System.out.println("Distance verifiee "+ distanceVerifiee);
+            System.out.println("Distance verifiee " + distanceVerifiee);
             return true;
-        }
-
-        catch(NoPathEx e) {
+        } catch (NoPathEx e) {
             StringBuilder sb = new StringBuilder();
             Scanner sc = new Scanner(new File(fichierReponse));
             while (sc.hasNext())
-                sb.append(sc.next() + " ");
-            sb.deleteCharAt(sb.length()-1);
+                sb.append(sc.next()).append(" ");
+            sb.deleteCharAt(sb.length() - 1);
             return ("pas de chemin entre " + df.getSource() + " et " + df.getDestination()).equals(sb.toString());
         }
     }
@@ -117,7 +116,7 @@ public class GraphImporter {
     public static void verifierGraphes() throws FileNotFoundException {
         IGraphe g;
         Arc df = new Arc();
-        String dirStr = System.getProperty("user.dir")+ "\\graphes\\sc";
+        String dirStr = System.getProperty("user.dir") + "\\graphes\\sc";
         System.out.println("Working Directory = " + dirStr);
         File dir = new File(dirStr);
         File[] directoryListing = dir.listFiles();
@@ -126,15 +125,16 @@ public class GraphImporter {
                 System.out.println(child);
                 g = importer(child, df);
                 System.out.println(g.getNbSommets() + " sommets");
-                System.out.println("debut et fin du chemin à trouver : "+ df.getSource()+ " ==> "+ df.getDestination()+"\n");
+                System.out.println("debut et fin du chemin à trouver : " + df.getSource() + " ==> " + df.getDestination() + "\n");
             }
         } else {
-            System.out.println("Erreur : "+ dirStr + " n'est pas un réperoire");
+            System.out.println("Erreur : " + dirStr + " n'est pas un réperoire");
         }
     }
 
     /**
      * Retourne l'arc correctement initialisé
+     *
      * @param string
      * @return
      */
@@ -154,6 +154,7 @@ public class GraphImporter {
 
     /**
      * Retourne le graphe initialisé
+     *
      * @param file
      * @param df
      * @return
@@ -163,9 +164,9 @@ public class GraphImporter {
         Scanner sc = new Scanner(file);
         String line;
         IGraphe g;
-        if (! sc.hasNextLine()) {
+        if (!sc.hasNextLine()) {
             sc.close();
-            throw new IllegalArgumentException("Pas de graphe dans "+ file);
+            throw new IllegalArgumentException("Pas de graphe dans " + file);
         }
         line = sc.nextLine();
         int nbNodes = Integer.parseInt(line.trim());
@@ -175,7 +176,7 @@ public class GraphImporter {
             line = sc.nextLine();
             a = parse(line);
             if (sc.hasNextLine())
-                g.ajouterArc(a.getSource(),  a.getValuation(), a.getDestination());
+                g.ajouterArc(a.getSource(), a.getValuation(), a.getDestination());
             else {// la derniere ligne n'est pas un arc mais le debut et la fin du chemin Ã  trouver
                 df.set(a);
             }
@@ -186,6 +187,7 @@ public class GraphImporter {
 
     /**
      * Retourne le graphe initialisé
+     *
      * @param filepath
      * @param df
      * @return
@@ -194,32 +196,33 @@ public class GraphImporter {
      * @throws FileNotFoundException
      */
     public static IGraphe importer(String filepath, Arc df)
-            throws  NumberFormatException, IOException, FileNotFoundException {
+            throws NumberFormatException, IOException, FileNotFoundException {
         File file = new File(filepath);
         return importer(file, df);
     }
 
     /**
      * Retourne la distance et le chemin
+     *
      * @param filePath
-     * @param[inout] chemin
      * @return distance
      * @throws FileNotFoundException
+     * @param[inout] chemin
      */
     public static int importerReponse(String filePath, List<Integer> chemin) throws FileNotFoundException {
         File file = new File(filePath);
         Scanner sc = new Scanner(file);
         String line;
-        if (! sc.hasNextLine()) {
+        if (!sc.hasNextLine()) {
             sc.close();
-            throw new IllegalArgumentException("Pas de reponse dans "+ file);
+            throw new IllegalArgumentException("Pas de reponse dans " + file);
         }
         line = sc.nextLine(); // nom de l'algo recommandé
         line = sc.nextLine(); // distance attendue
         int distance = Integer.parseInt(line.trim());
         line = sc.nextLine(); // chemin
         String[] noeuds = line.split(" ");
-        for(String s : noeuds)
+        for (String s : noeuds)
             chemin.add(Integer.parseInt(s));
         return distance;
     }

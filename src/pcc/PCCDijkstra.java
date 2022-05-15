@@ -1,50 +1,56 @@
 package pcc;
 
-import exceptions.ArcNegatifEx;
-import exceptions.NoPathEx;
 import graphes.IGraphe;
-import graphes.IPCC;
+import pcc.exceptions.ArcNegatifEx;
+import pcc.exceptions.NoPathEx;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/** Type de données représentant l'algorithme de Dijkstra héritant de l'interface IPCC */
 public class PCCDijkstra implements IPCC {
-    private static final int inf = Integer.MAX_VALUE;
 
     /**
-     * @return true si un chemin existe
-     * */
+     * @brief Indique si un chemin existe entre le début et la fin dans le graphe
+     * @param graphe le graphe
+     * @param start le début
+     * @param end la fin
+     * @return vrai si aucun chemin n'existe
+     */
     private static boolean NoPath(IGraphe graphe, int start, int end) {
-        if (start == end || graphe.aArc(start,end))
-            return true;
+        if (start == end || graphe.aArc(start, end))
+            return false;
         int longueur = graphe.getNbSommets();
         ArrayList<Integer> sommets = new ArrayList<>();
         ArrayList<Boolean> visitee = new ArrayList<>();
 
-        for (int i = 0; i < longueur; ++i) {
+        for (int i = 0; i < longueur; ++i)
             visitee.add(false);
-        }
 
         sommets.add(start);
 
         while (!sommets.isEmpty()) {
-            int courant = sommets.remove(sommets.size()-1);
-            visitee.set(courant-1, true);
+            int courant = sommets.remove(sommets.size() - 1);
+            visitee.set(courant - 1, true);
             for (int i = 1; i <= longueur; ++i) {
-                if (graphe.aArc(courant,i) && i == end) {
-                    return true;
-                }
-                else if (graphe.aArc(courant, i) && visitee.get(i-1) == false) {
+                if (graphe.aArc(courant, i) && i == end)
+                    return false;
+                else if (graphe.aArc(courant, i) && !visitee.get(i - 1)) {
                     sommets.add(i);
-                    visitee.set(i-1, true);
+                    visitee.set(i - 1, true);
                 }
             }
         }
-        return false;
+        return true;
 
     }
 
+    /**
+     * Indique si le graphe ne comporte pas une valuation négative
+     * @param graphe le graphe
+     * @return vrai si le graphe ne comporte pas de valuation négative
+     */
     private static boolean estOk(IGraphe graphe) {
         for (int i = 1; i < graphe.getNbSommets(); ++i)
             for (int j = 1; j < graphe.getNbSommets(); ++j)
@@ -53,8 +59,13 @@ public class PCCDijkstra implements IPCC {
         return true;
     }
 
+    /**
+     * @brief Indique la clé de la valeur minimum dans les valeurs de la hashmap
+     * @param d la hashmap
+     * @return la clé de la valeur minimum
+     */
     private static int minimum(HashMap<Integer, Integer> d) {
-        int mini = inf;
+        int mini = INFINI;
         int s = 1;
         for (int clef : d.keySet()) {
             if (d.get(clef) < mini) {
@@ -65,13 +76,20 @@ public class PCCDijkstra implements IPCC {
         return s;
     }
 
+    /**
+     * @brief Indique la distance la plus courte entre le début et la fin dans le graphe et modifie le chemin pour indiquer le chemin emprunté
+     * @param graphe le graphe
+     * @param debut le début du chemin
+     * @param fin la fin du chemin
+     * @param chemin le chemin emprunté par l'algorithme
+     * @return la distance la plus courte entre le début et la fin
+     */
     @Override
     public int pc(IGraphe graphe, int debut, int fin, List<Integer> chemin) throws ArcNegatifEx, NoPathEx {
         if (debut == fin) {
             chemin.add(debut);
             return 0;
-        }
-        else if (!PCCDijkstra.NoPath(graphe, debut, fin))
+        } else if (PCCDijkstra.NoPath(graphe, debut, fin))
             throw new NoPathEx();
         else if (!PCCDijkstra.estOk(graphe))
             throw new ArcNegatifEx();
@@ -80,7 +98,7 @@ public class PCCDijkstra implements IPCC {
             HashMap<Integer, Integer> tab = new HashMap<Integer, Integer>();
 
             for (int i = 1; i <= graphe.getNbSommets(); ++i) {
-                tab.put(i, inf);
+                tab.put(i, INFINI);
             }
             tab.put(debut, 0);
             int k = debut;
@@ -92,9 +110,9 @@ public class PCCDijkstra implements IPCC {
                         tab.put(key, Integer.min(tab.get(key), tab.get(k) + graphe.getValuation(k, key)));
                     }
                 }
-                if (k == fin) {
+                if (k == fin)
                     dijkstra.put(fin, k);
-                }
+
                 tab.remove(k);
                 //dijkstra.put(k,prede);
                 k = minimum(tab);
@@ -110,7 +128,6 @@ public class PCCDijkstra implements IPCC {
             }
             chemin.add(0, debut);
             //System.out.println(chemin);
-
 
             return tab.get(fin);
         }
